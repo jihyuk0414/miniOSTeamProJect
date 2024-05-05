@@ -23,6 +23,10 @@ int main() {
         if (strcmp(input,"minisystem") == 0){
             minisystem();
         }
+
+        if(strcmp(input,"ls")==0){
+            ls();
+        }
         else system(input);
     }
 
