@@ -9,6 +9,6 @@ void minisystem()
 
 void ls()
 {
-    do_ls("/home/seungmin/home/miniOSTeamProJect");
+    do_ls(".");
 }
 
