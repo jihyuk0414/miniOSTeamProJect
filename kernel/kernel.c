@@ -27,6 +27,10 @@ int main() {
         if(strcmp(input,"ls")==0){
             ls();
         }
+
+        if(strcmp(input,"pwd")==0){
+            pwd();
+        }
         else system(input);
     }
 
