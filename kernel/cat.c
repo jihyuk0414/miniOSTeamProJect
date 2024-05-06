@@ -71,7 +71,7 @@ void display_file(int fd, char *file) {
     }
 }
 
-int main(int ac, char *av[])
+int catt(int ac, char *av[])
 {
         int fd;
         int i;
@@ -83,12 +83,12 @@ int main(int ac, char *av[])
             i = 0;
             while (++i < ac)
             {
-                if (av[1] == ">")
+                if (strcmp(av[1], ">") == 0)
                 {
                     fd = open(av[2], O_CREAT | O_WRONLY | O_TRUNC, 0644);
                     write_file(fd, av[2], 1);
                 }
-                else if (av[1] == ">>")
+                else if (strcmp(av[1], ">>") == 0)
                 {
                     fd = open(av[2], O_CREAT | O_WRONLY | O_APPEND, 0644);
                     write_file(fd, av[2], 2);

@@ -5,6 +5,7 @@
 #include <readline/history.h>
 
 #include "system.h"
+#include "cat.h"
 void print_minios(char* str);
 
 int main() {
@@ -19,10 +20,13 @@ int main() {
         if (strcmp(input,"exit") == 0) {
             break;
         }
-
-        if (strcmp(input,"minisystem") == 0){
+        else if (strncmp(input, "cat ", 4) == 0) {
+            cat(input + 4);
+        }
+        else if (strcmp(input,"minisystem") == 0){
             minisystem();
         }
+
         else system(input);
     }
 
