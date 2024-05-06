@@ -19,7 +19,9 @@ int main() {
         if (strcmp(input,"exit") == 0) {
             break;
         }
-
+        else if (strncmp(input, "cat ", 4) == 0) {
+            cat(input + 4);
+        }        
         if (strcmp(input,"minisystem") == 0){
             minisystem();
         }
