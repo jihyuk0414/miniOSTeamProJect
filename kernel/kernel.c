@@ -5,6 +5,7 @@
 #include <readline/history.h>
 
 #include "system.h"
+#include "cat.h"
 void print_minios(char* str);
 
 int main() {
