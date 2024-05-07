@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "ls.h"
+#include <fcntl.h>
+#include <unistd.h>
 
 void minisystem()
 {
