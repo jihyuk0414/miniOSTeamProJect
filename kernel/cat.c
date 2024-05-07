@@ -5,7 +5,7 @@
 #include <libgen.h>
 #include <stdio.h>
 
-#define BUF_SIZE 1
+#define BUF_SIZE 1024
 
 char *g_name;
 
