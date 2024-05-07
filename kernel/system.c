@@ -20,7 +20,9 @@ void cat(char *filename) {
     close(fd);
     printf("\n");
 }
-
+void pwd(){
+    do_pwd();
+}
 void ls()
 {
     do_ls(".");

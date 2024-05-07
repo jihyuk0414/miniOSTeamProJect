@@ -47,9 +47,3 @@ void do_pwd()
 	do_pwd();
 	printf("/%s", dirname);
 }
-int main(int argc, char *argv[])
-{
-	do_pwd();
-	printf("\n");
-	return 0;
-}
