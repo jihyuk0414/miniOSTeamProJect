@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "ls.h"
+#include "cat.h"
 #include <fcntl.h>
 #include <unistd.h>
 
