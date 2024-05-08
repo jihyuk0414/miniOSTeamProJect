@@ -26,13 +26,20 @@ int main() {
         if (strcmp(input,"minisystem") == 0){
             minisystem();
         }
-
         if(strcmp(input,"ls")==0){
             ls();
         }
 
         if(strcmp(input,"pwd")==0){
             pwd();
+        }
+        if (strcmp(input, "find") == 0) {
+            char *path = strtok(NULL, " "); // 명령어 라인에서 경로 추출
+            if (path == NULL) {
+                printf("Usage: find <path>\n");
+            } else {
+                find(path);
+            }
         }
         else system(input);
     }
