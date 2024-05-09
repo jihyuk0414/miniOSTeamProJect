@@ -76,13 +76,13 @@ void show_info(const char *dir, const char *filename)
 		exit(1);
 	}
 	mode_to_str(s.st_mode, str_mode);
-	printf("%s ", str_mode);
-	printf("%-4d ", (int)s.st_nlink);
-	printf("%s ", uid_to_name(s.st_uid));
-	printf("%s ", gid_to_name(s.st_gid));
-	printf("%8ld ", (long)s.st_size);
-	printf("%12.12s ", ctime(&(s.st_mtime)) + 4 );
-	printf("%s \n", filename);
+	// printf("%s ", str_mode);
+	// printf("%-4d ", (int)s.st_nlink);
+	// printf("%s ", uid_to_name(s.st_uid));
+	// printf("%s ", gid_to_name(s.st_gid));
+	// printf("%8ld ", (long)s.st_size);
+	// printf("%12.12s ", ctime(&(s.st_mtime)) + 4 );
+	printf("%s  ", filename);
 }
 int compare(_Node *p, _Node *q)
 {
@@ -98,7 +98,7 @@ void do_ls(const char *dir)
 	pdir = opendir(dir);
 	if(pdir == NULL){
 		perror("opendir failed");
-		exit(1);
+		//exit(1);
 	}	
 	while((pdirent = readdir(pdir)) != NULL){
 		if(strcmp(pdirent->d_name, ".") == 0 || strcmp(pdirent->d_name, "..") == 0 )
@@ -109,13 +109,16 @@ void do_ls(const char *dir)
 		list_push_back(&list, (_Node *)dn);
     }
 	//show_info
-	printf("total %d\n", list_size(&list));
+	//printf("total %d\n", list_size(&list));
 	list_sort(&list, compare);
     DataNode *first = (DataNode *)list_begin(&list);
 	DataNode *last = (DataNode *)list_end(&list);
 	while(first != last){
 		show_info(dir, first->pdirent->d_name);
 		first = (DataNode *)list_next(&list, (_Node *)first);
+		if(first ==last){
+			printf("\n");
+		}
     }
 	delete_list(&list);
 	
