@@ -41,6 +41,21 @@ int main() {
                 find(path);
             }
         }
+        if (strncmp(input, "cp ", 3) == 0) {
+            char *token = strtok(input + 3, " "); 
+
+            if (token != NULL) {
+            char *source = token; 
+            token = strtok(NULL, ""); 
+                if (token != NULL) {
+                cp(source, token); 
+            }   else {
+                    printf("대상 파일 경로를 입력하세요.\n");
+                }
+            }   else {
+                    printf("파일 경로를 입력하세요.\n");
+                }
+        }
         else system(input);
     }
 

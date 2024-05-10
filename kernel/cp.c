@@ -10,10 +10,7 @@
 void f_err(int erno) 
 {
     switch(erno) {
-        case ENOENT : printf("해당 파일이 존재하지 않습니다.\n"); exit(0);
-        case EACCES : printf("접근이 허용된 파일이 아닙니다.\n"); exit(0);
-        case EROFS : printf("읽기전용 파일입니다.\n"); exit(0);
-        default : printf("알수 없는 오류입니다.\n"); break;
+        default : printf("오류입니다!\n"); break;
     }
 }
  
@@ -42,10 +39,6 @@ void writefile(const char *in_f, const char *out_f)
 
 void cp(const char *source, const char *destination)
 {
-     if (access(source, F_OK) != 0) {
-        printf("원본 파일이 존재하지 않습니다.\n");
-        exit(1);
-    }
  
     if (access(destination, F_OK) == 0) {
         char conin = 'h';
@@ -59,10 +52,7 @@ void cp(const char *source, const char *destination)
                 f_err(errno);
             }
             writefile(source, destination);
-        } else {
-            printf("복사를 중단합니다.\n");
-            exit(0);
-        }
+        } 
     } else {
         writefile(source, destination);
     }
