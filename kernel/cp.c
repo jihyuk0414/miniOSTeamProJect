@@ -5,39 +5,43 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
- 
- 
-void f_err(int erno) 
-{
-    switch(erno) {
-        default : printf("오류입니다!\n"); break;
-    }
-}
- 
-void writefile(const char *in_f, const char *out_f)
-{
+
+void writefile(const char *in_f, const char *out_f) {
     int in_o, out_o;
     int read_o;
- 
     char buf[1024];
  
     in_o = open(in_f, O_RDONLY);
     if (in_o == -1) {
-        f_err(errno);
+        perror("Error opening input file");
+        return;
     }
  
     out_o = open(out_f, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
     if (out_o == -1) {
-        f_err(errno);
+        perror("Error opening output file");
+        close(in_o);
+        return;
     }
  
-    while ((read_o = read(in_o, buf, sizeof(buf))) > 0)
+    while ((read_o = read(in_o, buf, sizeof(buf))) > 0) {
         if (write(out_o, buf, read_o) != read_o) {
-            f_err(errno);
+            perror("Error writing to output file");
+            close(in_o);
+            close(out_o);
+            return;
         }
+    }
+
+    if (read_o == -1) {
+        perror("Error reading from input file");
+    }
+
+    close(in_o);
+    close(out_o);
 }
 
-void cp(const char *source, const char *destination)
+void cpok(const char *source, const char *destination)
 {
  
     if (access(destination, F_OK) == 0) {
@@ -48,12 +52,11 @@ void cp(const char *source, const char *destination)
         }
  
         if (conin == 'y') {
-            if (unlink(destination) != 0) {
-                f_err(errno);
-            }
             writefile(source, destination);
+            printf("복사 성공\n");
         } 
     } else {
         writefile(source, destination);
+        printf("복사 성공\n");
     }
 }

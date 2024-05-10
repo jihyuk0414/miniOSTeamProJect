@@ -6,6 +6,7 @@
 
 #include "system.h"
 #include "cat.h"
+#include "cp.h"
 void print_minios(char* str);
 
 int main() {
@@ -41,20 +42,30 @@ int main() {
                 find(path);
             }
         }
-        if (strncmp(input, "cp ", 3) == 0) {
-            char *token = strtok(input + 3, " "); 
+        if (strncmp(input, "cpmade", 6) == 0) {
+        char *token = strtok(input + 6, " ");
+            if (token != NULL) {
+            char *source = token;
+            token = strtok(NULL, " ");
+            if (token != NULL) {
+                char *destination = token;
+                cp(source, destination);
+         } else {
+                printf("대상 파일 경로를 입력하세요.\n");
+          }
+            } else {
+            printf("소스 파일 경로를 입력하세요.\n");
+            }
+        }
+
+        if (strncmp(input, "mkdir ", 6) == 0) {
+            char *token = strtok(input + 6, ""); 
 
             if (token != NULL) {
-            char *source = token; 
-            token = strtok(NULL, ""); 
-                if (token != NULL) {
-                cp(source, token); 
-            }   else {
-                    printf("대상 파일 경로를 입력하세요.\n");
-                }
-            }   else {
-                    printf("파일 경로를 입력하세요.\n");
-                }
+                create_directory(token); 
+            } else {
+                printf("디렉토리 경로를 입력하세요.\n");
+            }
         }
         else system(input);
     }

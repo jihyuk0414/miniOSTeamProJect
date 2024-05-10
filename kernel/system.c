@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "ls.h"
 #include "cat.h"
+#include "cp.h"
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -30,4 +31,10 @@ void ls()
 {
     do_ls(".");
 }
-
+void cp(const char *source, const char *destination) {
+    cpok(source, destination);
+}
+int create_directory(const char* dirname)
+{
+    create_directoryok(dirname);
+}
