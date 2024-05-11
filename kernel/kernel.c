@@ -34,6 +34,17 @@ int main() {
         if(strcmp(input,"pwd")==0){
             pwd();
         }
+        if(strncmp(input, "mv ", 2)==0){
+            char *srcPath=strtok(input+ 2, " ");
+            char *desPath=strtok(NULL, " ");
+            if (srcPath ==NULL||desPath==NULL){
+                printf("대상 파일 경로를 입력하세요.\n");
+            }
+            else{
+                fileMove(srcPath,desPath);
+            }
+            
+        }
         if (strcmp(input, "find") == 0) {
             char *path = strtok(NULL, " "); // 명령어 라인에서 경로 추출
             if (path == NULL) {
