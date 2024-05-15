@@ -13,7 +13,7 @@ void *generate_points(void *param){
     int i;
     double x, y;
     long long local_count = 0;
-    unsigned int seed = time(NuLL) ^ pthread_self();
+    unsigned int seed = time(NULL) ^ pthread_self();
 
     for(i = 0; i < NUM_POINTS / NUM_THREADS; i++) {
         x = (double)rand_r(&seed) / RAND_MAX;
