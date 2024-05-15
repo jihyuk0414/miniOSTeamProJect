@@ -26,6 +26,9 @@ int main() {
         else if (strcmp(input,"minisystem") == 0){
             minisystem();
         }
+        else if (strcmp(input,"CPI") == 0){
+            cpi();
+        }
 
         else system(input);
     }
