@@ -2,49 +2,51 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <time.h>
+#include <semaphore.h>
 
 #define NUM_THREADS 4
 #define NUM_POINTS 1000000
 
 long long points_inside_circle = 0;
-pthread_mutex_t lock;
+sem_t sem;
 
-void *generate_points(void *param){
+void *generate_points(void *param) {
     int i;
     double x, y;
     long long local_count = 0;
     unsigned int seed = time(NULL) ^ pthread_self();
 
-    for(i = 0; i < NUM_POINTS / NUM_THREADS; i++) {
+    for (i = 0; i < NUM_POINTS / NUM_THREADS; i++) {
         x = (double)rand_r(&seed) / RAND_MAX;
         y = (double)rand_r(&seed) / RAND_MAX;
-        if (x*x + y*y <= 1){
+        if (x * x + y * y <= 1) {
             local_count++;
         }
     }
-    pthread_mutex_lock(&lock);
+
+    sem_wait(&sem);
     points_inside_circle += local_count;
-    pthread_mutex_unlock(&lock);
+    sem_post(&sem);
 
     return NULL;
 }
 
 int cpi() {
     pthread_t threads[NUM_THREADS];
-    int i;
 
-    pthread_mutex_init(&lock, NULL);
+    sem_init(&sem, 0, 1); // 세마포어 초기화, 세마포어 값은 1
 
-    for(i = 0; i < NUM_THREADS; i++) {
+    for (int i = 0; i < NUM_THREADS; i++) {
         pthread_create(&threads[i], NULL, generate_points, NULL);
     }
-    for(i=0; i<NUM_THREADS; i++){
+    for (int i = 0; i < NUM_THREADS; i++) {
         pthread_join(threads[i], NULL);
     }
-    double pi_estimate = 4.0 * points_inside_circle / NUM_POINTS;
-    printf("Estimated value of n: %f\n", pi_estimate);
 
-    pthread_mutex_destroy(&lock);
+    double pi_estimate = 4.0 * points_inside_circle / NUM_POINTS;
+    printf("Estimated value of Pi: %f\n", pi_estimate);
+
+    sem_destroy(&sem);
 
     return 0;
 }
