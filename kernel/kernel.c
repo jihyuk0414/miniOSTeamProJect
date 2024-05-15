@@ -11,30 +11,30 @@ void print_minios(char* str);
 
 int main() {
     print_minios("[MiniOS SSU] Hello, World!");
-
     char *input;
+    
 
-    while(1) {
-        // readline을 사용하여 입력 받기
+        while(1){
+        
+
         input = readline("커맨드를 입력하세요(종료:exit) : ");
-
         if (strcmp(input,"exit") == 0) {
             break;
         }
         else if (strncmp(input, "cat ", 4) == 0) {
             cat(input + 4);
         }        
-        if (strcmp(input,"minisystem") == 0){
+        else if (strcmp(input,"minisystem") == 0){
             minisystem();
         }
-        if(strcmp(input,"ls")==0){
+        else if(strcmp(input,"ls")==0){
             ls();
         }
 
-        if(strcmp(input,"pwd")==0){
+        else if(strcmp(input,"pwd")==0){
             pwd();
         }
-        if(strncmp(input, "mv ", 2)==0){
+        else if(strncmp(input, "mv ", 2)==0){
             char *srcPath=strtok(input+ 2, " ");
             char *desPath=strtok(NULL, " ");
             if (srcPath ==NULL||desPath==NULL){
@@ -45,7 +45,7 @@ int main() {
             }
             
         }
-        if (strcmp(input, "find") == 0) {
+        else if (strcmp(input, "find") == 0) {
             char *path = strtok(NULL, " "); // 명령어 라인에서 경로 추출
             if (path == NULL) {
                 printf("Usage: find <path>\n");
@@ -53,8 +53,8 @@ int main() {
                 find(path);
             }
         }
-        if (strncmp(input, "cpmade", 6) == 0) {
-        char *token = strtok(input + 6, " ");
+        else if (strncmp(input, "cp", 2) == 0) {
+        char *token = strtok(input + 2, " ");
             if (token != NULL) {
             char *source = token;
             token = strtok(NULL, " ");
@@ -69,7 +69,7 @@ int main() {
             }
         }
 
-        if (strncmp(input, "mkdir ", 6) == 0) {
+        else if (strncmp(input, "mkdir ", 6) == 0) {
             char *token = strtok(input + 6, ""); 
 
             if (token != NULL) {
@@ -78,8 +78,9 @@ int main() {
                 printf("디렉토리 경로를 입력하세요.\n");
             }
         }
-        else system(input);
-    }
+        }
+      
+    
 
     // 메모리 해제
     free(input);
