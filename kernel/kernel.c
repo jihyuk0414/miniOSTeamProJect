@@ -8,6 +8,7 @@
 #include "cat.h"
 #include "cp.h"
 void print_minios(char* str);
+void findFile(const char *dirName, const char *fileName);
 
 int main() {
     print_minios("[MiniOS SSU] Hello, World!");
