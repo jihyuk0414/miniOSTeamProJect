@@ -53,6 +53,7 @@ int main() {
             } else {
                 findFile(path, fileName);
             }
+        }
         else if (strncmp(input, "cp", 2) == 0) {
         char *token = strtok(input + 2, " ");
             if (token != NULL) {
