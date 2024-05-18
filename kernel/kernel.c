@@ -45,15 +45,14 @@ int main() {
             }
             
         }
-        else if (strncmp(input, "find", 5) == 0) {
-            char *path = strtok(NULL, " "); // 명령어 라인에서 디렉토리 경로 추출
-            char *fileName = strtok(NULL, " "); // 명령어 라인에서 파일 이름 추출
+        else if (strncmp(input, "find ", 5) == 0) {
+            char *path = strtok(input + 5, " ");
+            char *fileName = strtok(NULL, " ");
             if (path == NULL || fileName == NULL) {
                 printf("Usage: find <path> <file_name>\n");
             } else {
                 findFile(path, fileName);
             }
-        }
         else if (strncmp(input, "cp", 2) == 0) {
         char *token = strtok(input + 2, " ");
             if (token != NULL) {

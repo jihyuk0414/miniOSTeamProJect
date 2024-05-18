@@ -1,7 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include <dirent.h>
-#include <sys/stat.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 void findFile(const char *dirName, const char *fileName) {
     DIR *dir;
@@ -33,14 +34,4 @@ void findFile(const char *dirName, const char *fileName) {
         }
     }
     closedir(dir);
-}
-
-int do_find(int argc, char *argv[]) {
-    if (argc != 3) {
-        fprintf(stderr, "Usage: %s <directory> <file_name>\n", argv[0]);
-        return 1;
-    }
-
-    findFile(argv[1], argv[2]);
-    return 0;
 }
