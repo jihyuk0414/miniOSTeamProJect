@@ -1,8 +1,9 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include <dirent.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <stdlib.h>
 
 void findFile(const char *dirName, const char *fileName) {
     DIR *dir;
