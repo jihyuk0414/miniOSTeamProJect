@@ -45,7 +45,7 @@ int main() {
             }
             
         }
-        else if (strncmp(input, "find", 4) == 0) {
+        else if (strncmp(input, "find", 5) == 0) {
             char *path = strtok(NULL, " "); // 명령어 라인에서 디렉토리 경로 추출
             char *fileName = strtok(NULL, " "); // 명령어 라인에서 파일 이름 추출
             if (path == NULL || fileName == NULL) {
