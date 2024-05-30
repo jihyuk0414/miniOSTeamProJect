@@ -80,6 +80,18 @@ int main() {
                 printf("디렉토리 경로를 입력하세요.\n");
             }
         }
+        else if (strncmp(input, "client ", 7) == 0) {
+            char *host = strtok(input + 7, " ");
+            char *port = strtok(NULL, " ");
+            if (host == NULL || port == NULL) {
+                printf("Usage: client <hostname> <port>\n");
+            } else {
+                char *client_args[] = { "client", host, port };
+                tcp_client(3, client_args);
+            }
+        }
+
+
         }
       
     
