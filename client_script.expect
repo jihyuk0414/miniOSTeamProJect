@@ -1,0 +1,25 @@
+#!/usr/bin/expect
+
+set timeout -1
+
+# Arguments: [client_id] [message]
+set client_id [lindex $argv 0]
+set message [lindex $argv 1]
+
+# Get the current time with milliseconds
+set timestamp [clock format [clock milliseconds] -format "%Y-%m-%d %H:%M:%S.%3N"]
+
+# Start the client
+spawn ./minios
+
+# Send the client command
+expect "커맨드를 입력하세요(종료:exit) :"
+send "client 127.0.0.1 8080\r"
+
+# Send the message after connecting
+expect "To send data, enter text followed by enter."
+send "$message $timestamp\r"
+
+# Keep the session open for a while to observe messages
+expect "To send data, enter text followed by enter."
+
