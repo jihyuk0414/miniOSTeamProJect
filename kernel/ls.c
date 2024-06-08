@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
-#include <dirent.h>//opendir() closedir() readdir()
+#include <dirent.h>
 #include <sys/stat.h>
-#include <unistd.h>//stat()
-#include <pwd.h>//getpwuid()
-#include <grp.h>//getgrgid()
-#include <time.h>//ctime()
-#include <string.h>//strcpy()
-#include <malloc.h>//malloc()
-#include "list.h"//get list operation
+#include <unistd.h>
+#include <pwd.h>
+#include <grp.h>
+#include <time.h>
+#include <string.h>
+#include <malloc.h>
+#include "list.h"
 #include "ls.h"
 
 

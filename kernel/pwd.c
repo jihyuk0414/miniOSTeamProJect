@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
-#include <dirent.h>//opendir() readdir() closedir()
+#include <dirent.h>
 
 ino_t get_inode(const char *path)
 {
