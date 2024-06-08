@@ -21,9 +21,6 @@ void cat(char *filename) {
     close(fd);
     printf("\n");
 }
-// void find(){
-//     do_find();
-// }
 void pwd(){
     do_pwd();
 }

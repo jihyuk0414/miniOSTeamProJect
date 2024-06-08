@@ -7,7 +7,6 @@ typedef struct _NODE{
 	struct _NODE *next;
 }_Node;
 
-//typedef struct LIST List;
 
 
 typedef struct LIST{

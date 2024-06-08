@@ -36,7 +36,7 @@ char *ft_strcpy(char *str1, char *str2) {
 
 char *ft_strcat(char *str1, char *str2) {
     char *ptr = str1;
-    while (*ptr) ++ptr;  // 이 부분이 필요함
+    while (*ptr) ++ptr; 
     while (*str2) {
         *ptr++ = *str2++;
     }

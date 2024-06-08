@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
-#include <dirent.h>//opendir() closedir() readdir()
+#include <dirent.h>
 #include <sys/stat.h>
-#include <unistd.h>//stat()
-#include <pwd.h>//getpwuid()
-#include <grp.h>//getgrgid()
-#include <time.h>//ctime()
-#include <string.h>//strcpy()
-#include <malloc.h>//malloc()
-#include "list.h"//get list operation
+#include <unistd.h>
+#include <pwd.h>
+#include <grp.h>
+#include <time.h>
+#include <string.h>
+#include <malloc.h>
+#include "list.h"
 #include "ls.h"
 
 
@@ -98,18 +98,15 @@ void do_ls(const char *dir)
 	pdir = opendir(dir);
 	if(pdir == NULL){
 		perror("opendir failed");
-		//exit(1);
 	}	
 	while((pdirent = readdir(pdir)) != NULL){
 		if(strcmp(pdirent->d_name, ".") == 0 || strcmp(pdirent->d_name, "..") == 0 )
 			continue;
-		//show_info(dir, pdirent->d_name);
 		DataNode *dn = (DataNode *)malloc(sizeof(DataNode));
 		dn->pdirent = pdirent;
 		list_push_back(&list, (_Node *)dn);
     }
-	//show_info
-	//printf("total %d\n", list_size(&list));
+
 	list_sort(&list, compare);
     DataNode *first = (DataNode *)list_begin(&list);
 	DataNode *last = (DataNode *)list_end(&list);
@@ -124,17 +121,3 @@ void do_ls(const char *dir)
 	
 	closedir(pdir);
 }
-// int main(int argc, char *argv[])
-// { 
-// 	if(argc == 1)
-// 		do_ls(".");
-// 	// else{
-// 	// 	int ac = argc;
-// 	// 	char **av = argv;
-// 	// 	while(--ac){
-// 	// 		do_ls(*++av);
-// 	// 	}
-//     // }
-	
-// 	return 0;
-// }

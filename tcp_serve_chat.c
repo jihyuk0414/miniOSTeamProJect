@@ -1,26 +1,3 @@
-/*
- * MIT License
- *
- * Copyright (c) 2018 Lewis Van Winkle
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -32,7 +9,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <pthread.h>
-#include <stdlib.h>  // 추가된 헤더 파일
+#include <stdlib.h>  
 
 #define ISVALIDSOCKET(s) ((s) >= 0)
 #define CLOSESOCKET(s) close(s)
@@ -42,39 +19,41 @@
 pthread_mutex_t socket_mutex = PTHREAD_MUTEX_INITIALIZER;
 fd_set master;
 SOCKET max_socket;
-SOCKET socket_listen;  // 전역 변수로 이동
+SOCKET socket_listen;  
 
 void *handle_client(void *arg) {
     SOCKET client_socket = *(SOCKET *)arg;
     free(arg);
-
+    char read[1024];
     while (1) {
-        char read[1024];
         int bytes_received = recv(client_socket, read, 1024, 0);
         if (bytes_received < 1) {
+            printf("완료\n");
             pthread_mutex_lock(&socket_mutex);
             FD_CLR(client_socket, &master);
             pthread_mutex_unlock(&socket_mutex);
             CLOSESOCKET(client_socket);
             return NULL;
         }
-
-        pthread_mutex_lock(&socket_mutex);
         for (SOCKET j = 0; j <= max_socket; ++j) {
             if (FD_ISSET(j, &master)) {
                 if (j != client_socket && j != socket_listen) {
-                    send(j, read, bytes_received, 0);
+                    if (pthread_mutex_trylock(&socket_mutex) == 0) {
+                        printf("전송완료\n");
+                        send(j, read, bytes_received, 0);
+                        pthread_mutex_unlock(&socket_mutex);
+                    } else {
+                        printf("뮤텍스가 이미 잠겨 있습니다.\n");
+                    }
                 }
             }
         }
-        pthread_mutex_unlock(&socket_mutex);
     }
 
     return NULL;
 }
 
 int main() {
-
     printf("Configuring local address...\n");
     struct addrinfo hints;
     memset(&hints, 0, sizeof(hints));
@@ -141,7 +120,9 @@ int main() {
                     SOCKET *pclient = malloc(sizeof(SOCKET));
                     *pclient = socket_client;
                     pthread_t thread_id;
+
                     pthread_create(&thread_id, NULL, handle_client, pclient);
+                    printf("스레드 분기\n");
                     pthread_detach(thread_id);
                 }
             }
@@ -149,7 +130,7 @@ int main() {
     }
 
     printf("Closing listening socket...\n");
-    CLOSESOCKET(socket_listen);
+    CLOSESOCKET(socket_listen); 
 
     printf("Finished.\n");
     return 0;

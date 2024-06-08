@@ -1,4 +1,4 @@
-#include <malloc.h>//malloc()
+#include <malloc.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "list.h"
@@ -80,8 +80,8 @@ int delete_list(List *list)
 		_Node *first = head->next;
 		head->next = first->next;
 		if(list->freefn != NULL)
-			list->freefn(first);//free _Node.data
-		free(first);//free _Node
+			list->freefn(first);
+		free(first);
 	}
 	free(head);
 	list->head = NULL;
@@ -239,14 +239,14 @@ void list_sort(List *list, int (*compare)(_Node *p, _Node *q))
 	if(list->size == 0 || list->size == 1)
 		return ;
 	int index;
-	//init carry
+
 	List carry;
 	create_list(&carry, list->freefn);
-	//init counter
+
 	List counter[64];
 	for(index=0;index<64;index++)
         	create_list(&counter[index], list->freefn);
-	//bottom to up merge sort
+
 	int fill = 0;
 	while(!list_empty(list)){
 		list_push_back(&carry, list_pop_front(list));
@@ -262,7 +262,7 @@ void list_sort(List *list, int (*compare)(_Node *p, _Node *q))
 	for(index = 1; index<fill; index++)
         	list_merge(&counter[index], &counter[index-1], compare);
 	list_swap(list, &counter[fill-1]);
-	//delete counter and carry
+
 	for(index=0;index<64;index++)
        		delete_list(&counter[index]);
     	delete_list(&carry);
