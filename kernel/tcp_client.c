@@ -96,7 +96,7 @@ int tcp_client(int argc, char *argv[]) {
 
 
         }
-
+        
         if(FD_ISSET(0, &reads)) {
             char read[4096];
             if (!fgets(read, 4096, stdin)) break;
