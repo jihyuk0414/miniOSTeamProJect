@@ -25,3 +25,11 @@ O   ├── build.sh            # 빌드 스크립트
 O   └── run_qemu.sh         # QEMU를 통해 OS 이미지 실행 스크립트  
 
 
+#동작 방법
+1. gcc -o make server tcp_serve_chat.c
+2. make clean
+3. make 
+4. ./server 8080 
+5. ./minios (새 터미널에서)
+6. minios 상에서 client 127.0.0.1 8080
+
