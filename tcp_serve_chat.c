@@ -25,31 +25,35 @@ void *handle_client(void *arg) {
     SOCKET client_socket = *(SOCKET *)arg;
     free(arg);
     char read[1024];
-    while (1) {
-        int bytes_received = recv(client_socket, read, 1024, 0);
-        if (bytes_received < 1) {
-            printf("완료\n");
-            FD_CLR(client_socket, &master);
-            CLOSESOCKET(client_socket);
 
+    while (1) {
+        if (pthread_mutex_lock(&socket_mutex) != 0) {
+            printf("lock을 얻지 못함\n");
             return NULL;
         }
-        // sleep(8);
+        printf("lock을 얻음\n");
+        int bytes_received = recv(client_socket, read, 1024, 0);
+        if (bytes_received < 1) {
+            pthread_mutex_unlock(&socket_mutex);
+            FD_CLR(client_socket, &master);
+            CLOSESOCKET(client_socket);
+            return NULL;
+        }
 
         for (SOCKET j = 0; j <= max_socket; ++j) {
-
             if (FD_ISSET(j, &master)) {
                 if (j != client_socket && j != socket_listen) {
-                    printf("전송완료\n");
-                    pthread_mutex_lock(&socket_mutex);
                     send(j, read, bytes_received, 0);
-                    pthread_mutex_unlock(&socket_mutex);
                 }
             }
         }
 
+        if (pthread_mutex_unlock(&socket_mutex) != 0) {
+            printf("lock을 반납 못함\n");
+            return NULL;
+        }
     }
-
+    printf("lock 반납");
     return NULL;
 }
 
@@ -120,21 +124,17 @@ int main() {
 
                     SOCKET *pclient = malloc(sizeof(SOCKET));
                     *pclient = socket_client;
-                    pthread_t thread_id;
-
-
+                    pthread_t thread_id;                    
                     pthread_create(&thread_id, NULL, handle_client, pclient);
-                    printf("스레드 분기");
+                    printf("스레드 분기\n");
                     pthread_detach(thread_id);
                 }
             }
         }
     }
 
-
     printf("Closing listening socket...\n");
     CLOSESOCKET(socket_listen); 
-
 
     printf("Finished.\n");
     return 0;
