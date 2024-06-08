@@ -35,11 +35,13 @@ void *handle_client(void *arg) {
             CLOSESOCKET(client_socket);
             return NULL;
         }
+        
         for (SOCKET j = 0; j <= max_socket; ++j) {
             if (FD_ISSET(j, &master)) {
                 if (j != client_socket && j != socket_listen) {
                     if (pthread_mutex_trylock(&socket_mutex) == 0) {
                         printf("전송완료\n");
+                        //sleep(3);
                         send(j, read, bytes_received, 0);
                         pthread_mutex_unlock(&socket_mutex);
                     } else {
